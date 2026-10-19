@@ -52,7 +52,9 @@ header{display:flex;flex-direction:column;gap:6px}
 .dots i.on{background:var(--good);box-shadow:none}
 .today .cnt{margin-left:auto;font-family:var(--mono);font-size:.78rem;font-variant-numeric:tabular-nums}
 
-.games{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.games{list-style:none;margin:0;padding:0;display:grid;grid-auto-rows:1fr;gap:12px}
+.games li{display:flex}
+.games .game{flex:1}
 .game{display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:center;padding:14px;background:var(--sheet);border:1.5px solid var(--ink);border-radius:6px;box-shadow:var(--shadow);color:var(--ink);text-decoration:none;position:relative;transition:transform .15s ease,box-shadow .15s ease}
 .game:hover{transform:translateY(-2px);box-shadow:0 1px 0 rgba(19,36,58,.06),0 14px 30px -14px rgba(19,36,58,.45)}
 .ref{position:absolute;top:8px;right:12px;font-family:var(--mono);font-size:.68rem;color:var(--ink-2);letter-spacing:.04em}
@@ -131,7 +133,7 @@ function playedToday(id){const k=dayKey();try{
 function draw(){let n=0;
   document.querySelectorAll('.game').forEach(a=>{const p=playedToday(a.dataset.id),st=a.querySelector('.st');if(p)n++;
     st.textContent=p?'✓ Played today':'Not played';st.classList.toggle('done',p);a.querySelector('.go')?.remove();
-    if(!p)st.insertAdjacentHTML('afterend','<span class="go">Play →</span>')});
+    st.insertAdjacentHTML('afterend','<span class="go">'+(p?'See result →':'Play →')+'</span>')});
   document.querySelectorAll('#dots i').forEach((d,i)=>d.classList.toggle('on',i<n));
   document.getElementById('donetxt').textContent=n===3?'All three played today':n+' of 3 played today';
   const p=madridParts(Date.now());document.getElementById('day').textContent=p.day+'.'+p.month+'.'+p.year}
