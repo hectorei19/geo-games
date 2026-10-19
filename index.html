@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>Geo Games</title>
+<meta name="description" content="Three daily geography games: Borderline, Connections and Top 10.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Barlow+Semi+Condensed:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: the games' survey-map sheet (same tokens as style.css) with one map-reference card per game */
+:root{
+  --paper:#E9EFEE; --sheet:#F7FAF9; --ink:#13243A; --ink-2:#4D5E6E; --rule:#B9C7C8; --sea:#0E7C86; --sea-soft:#D3E7E7;
+  --good:#1F7A3E; --p0:#D9482B; --p1:#2A62C9; --p2:#C58A00; --p3:#7B3FBF; --p4:#2E8540;
+  --p0-soft:#F6D9D1; --p1-soft:#D6E1F6; --p2-soft:#F3E6C2; --p3-soft:#E5D8F3; --p4-soft:#D5EDDA;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --ui:"Barlow Semi Condensed","Arial Narrow","Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --shadow:0 1px 0 rgba(19,36,58,.06),0 8px 24px -12px rgba(19,36,58,.25);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0D1820; --sheet:#14232D; --ink:#E2ECEA; --ink-2:#97A9AF; --rule:#2B3E48; --sea:#4FC1C6; --sea-soft:#183A40;
+  --good:#7FD39A; --p0:#FF7A5C; --p1:#79A5FF; --p2:#F2C14E; --p3:#C49BFF; --p4:#6FD08C;
+  --p0-soft:#43231C; --p1-soft:#1F2D4A; --p2-soft:#3D321A; --p3-soft:#33264A; --p4-soft:#1D3A26;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 10px 28px -12px rgba(0,0,0,.7); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0D1820; --sheet:#14232D; --ink:#E2ECEA; --ink-2:#97A9AF; --rule:#2B3E48; --sea:#4FC1C6; --sea-soft:#183A40;
+  --good:#7FD39A; --p0:#FF7A5C; --p1:#79A5FF; --p2:#F2C14E; --p3:#C49BFF; --p4:#6FD08C;
+  --p0-soft:#43231C; --p1-soft:#1F2D4A; --p2-soft:#3D321A; --p3-soft:#33264A; --p4-soft:#1D3A26;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 10px 28px -12px rgba(0,0,0,.7); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.4;
+  background-image:linear-gradient(var(--rule) 1px,transparent 1px),linear-gradient(90deg,var(--rule) 1px,transparent 1px);
+  background-size:48px 48px;background-position:-1px -1px;background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;background:var(--paper);opacity:.82;pointer-events:none;z-index:-1}
+.wrap{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:22px 40px;display:flex;flex-direction:column;gap:18px}
+:focus-visible{outline:2.5px solid var(--sea);outline-offset:2px}
+
+header{display:flex;flex-direction:column;gap:6px}
+.toprow{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.brand{font-family:var(--display);font-weight:900;font-size:2.6rem;letter-spacing:.02em;line-height:.95;text-transform:uppercase;margin:0}
+.brand span{color:var(--sea)}
+.coord{font-family:var(--mono);font-size:.72rem;color:var(--ink-2);letter-spacing:.04em;white-space:nowrap}
+.lede{margin:0;color:var(--ink-2);font-size:1.05rem;text-wrap:balance}
+
+.today{display:flex;align-items:center;gap:10px;font-size:.95rem;color:var(--ink-2);flex-wrap:wrap}
+.dots{display:flex;gap:6px}
+.dots i{width:12px;height:12px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--rule)}
+.dots i.on{background:var(--good);box-shadow:none}
+.today .cnt{margin-left:auto;font-family:var(--mono);font-size:.78rem;font-variant-numeric:tabular-nums}
+
+.games{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.game{display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:center;padding:14px;background:var(--sheet);border:1.5px solid var(--ink);border-radius:6px;box-shadow:var(--shadow);color:var(--ink);text-decoration:none;position:relative;transition:transform .15s ease,box-shadow .15s ease}
+.game:hover{transform:translateY(-2px);box-shadow:0 1px 0 rgba(19,36,58,.06),0 14px 30px -14px rgba(19,36,58,.45)}
+.ref{position:absolute;top:8px;right:12px;font-family:var(--mono);font-size:.68rem;color:var(--ink-2);letter-spacing:.04em}
+.txt{display:flex;flex-direction:column;gap:3px;min-width:0}
+.txt b{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:1.7rem;line-height:1;letter-spacing:.02em}
+.txt small{color:var(--ink-2);font-size:.95rem}
+.st{font-family:var(--mono);font-size:.72rem;color:var(--ink-2);margin-top:4px}
+.st.done{color:var(--good)}
+.go{font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.85rem;color:var(--sea);margin-top:4px}
+
+/* small pictures of each game, drawn with CSS */
+.pic{width:76px;height:76px;border-radius:5px;background:var(--paper);border:1px solid var(--rule);padding:7px;display:grid;gap:3px}
+.pic.bl{grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr)}
+.pic.bl i{border-radius:2px;background:var(--sea-soft)}
+.pic.bl i.f{background:var(--sea)}
+.pic.cx{grid-template-rows:repeat(4,1fr)}
+.pic.cx i{border-radius:3px}
+.pic.cx i:nth-child(1){background:var(--p2)}.pic.cx i:nth-child(2){background:var(--p4)}
+.pic.cx i:nth-child(3){background:var(--p1)}.pic.cx i:nth-child(4){background:var(--p3)}
+.pic.t10{grid-template-rows:repeat(5,1fr);gap:2px;padding:6px 8px}
+.pic.t10 span{display:flex;align-items:center;gap:5px;font-family:var(--display);font-weight:900;font-size:.72rem;color:var(--sea);line-height:1}
+.pic.t10 span::after{content:"";flex:1;height:5px;border-radius:2px;background:var(--rule)}
+.pic.t10 span.on::after{background:var(--p4)}
+
+footer{font-size:.85rem;color:var(--ink-2);display:flex;flex-direction:column;gap:4px;border-top:1px dashed var(--rule);padding-top:12px}
+@media (max-width:380px){.game{grid-template-columns:60px 1fr}.pic{width:60px;height:60px;padding:5px}.brand{font-size:2.2rem}}
+@media (prefers-reduced-motion:reduce){.game{transition:none}.game:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <header>
+    <div class="toprow">
+      <h1 class="brand">Geo <span>Games</span></h1>
+      <span class="coord" id="day">40°25′N 3°42′W</span>
+    </div>
+    <p class="lede">Three daily geography games. New puzzles every day at midnight, Spain time.</p>
+  </header>
+
+  <div class="today" aria-live="polite">
+    <span class="dots" id="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span id="donetxt">0 of 3 played today</span>
+    <span class="cnt" id="cnt"></span>
+  </div>
+
+  <ul class="games" id="games">
+    <li><a class="game" href="https://hectorei19.github.io/borderline/" data-id="borderline">
+      <span class="pic bl" aria-hidden="true"><i class="f"></i><i></i><i class="f"></i><i></i><i></i><i class="f"></i><i class="f"></i><i></i><i class="f"></i><i></i><i></i><i class="f"></i><i></i><i class="f"></i><i></i><i></i></span>
+      <span class="txt"><b>Borderline</b><small>Fill the 4×4 grid of countries. Solo or with friends.</small><span class="st">Not played</span></span>
+      <span class="ref">A1</span></a></li>
+    <li><a class="game" href="https://hectorei19.github.io/connections/" data-id="connections">
+      <span class="pic cx" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="txt"><b>Connections</b><small>16 countries, 4 hidden groups of 4.</small><span class="st">Not played</span></span>
+      <span class="ref">B2</span></a></li>
+    <li><a class="game" href="https://hectorei19.github.io/top10/" data-id="top10">
+      <span class="pic t10" aria-hidden="true"><span class="on">1</span><span class="on">2</span><span>3</span><span class="on">4</span><span>5</span></span>
+      <span class="txt"><b>Top 10</b><small>Name the 10 countries of a ranking. 3 lives.</small><span class="st">Not played</span></span>
+      <span class="ref">C3</span></a></li>
+  </ul>
+
+  <footer>
+    <span>Your results are saved on this device only.</span>
+  </footer>
+</main>
+
+<script>
+// Spain's calendar day, the same day key the games use for their daily puzzle
+function madridParts(t){const o={};new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(t).forEach(p=>o[p.type]=p.value);return o}
+function dayKey(){const p=madridParts(Date.now());return p.year+'-'+p.month+'-'+p.day}
+// same check as games.js: each game keeps its own save on this site
+function playedToday(id){const k=dayKey();try{
+  if(id==='borderline'){const h=JSON.parse(localStorage.getItem('bl-hist')||'{}')||{};if(h[k]&&h[k].f!==0)return true;
+    const d=JSON.parse(localStorage.getItem('bl-daily')||'null');return !!(d&&d.date===k&&d.S&&d.S.over)}
+  const d=JSON.parse(localStorage.getItem(id==='connections'?'cx-daily':'t10-daily')||'null');return !!(d&&d.date===k&&d.over)}catch(e){return false}}
+function draw(){let n=0;
+  document.querySelectorAll('.game').forEach(a=>{const p=playedToday(a.dataset.id),st=a.querySelector('.st');if(p)n++;
+    st.textContent=p?'✓ Played today':'Not played';st.classList.toggle('done',p);a.querySelector('.go')?.remove();
+    if(!p)st.insertAdjacentHTML('afterend','<span class="go">Play →</span>')});
+  document.querySelectorAll('#dots i').forEach((d,i)=>d.classList.toggle('on',i<n));
+  document.getElementById('donetxt').textContent=n===3?'All three played today':n+' of 3 played today';
+  const p=madridParts(Date.now());document.getElementById('day').textContent=p.day+'.'+p.month+'.'+p.year}
+function tick(){const p=madridParts(Date.now()),s=24*3600-(+p.hour*3600+ +p.minute*60+ +p.second);
+  const h=Math.floor(s/3600),m=Math.floor(s%3600/60);
+  document.getElementById('cnt').textContent='New in '+h+'h '+String(m).padStart(2,'0')+'m';
+  if(s<=1)setTimeout(draw,1500)}
+draw();tick();setInterval(tick,30000);
+// coming back from a game in the same tab
+addEventListener('pageshow',draw);addEventListener('focus',draw);
+</script>
+</body>
+</html>
