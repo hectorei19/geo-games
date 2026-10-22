@@ -115,7 +115,7 @@ footer{font-size:.85rem;color:var(--ink-2);display:flex;flex-direction:column;ga
       <span class="ref">A1</span></a></li>
     <li><a class="game" href="https://hectorei19.github.io/city-grid/" data-id="citygrid">
       <span class="pic cg" aria-hidden="true"><i></i><i class="f"></i><i></i><i class="f"></i><i class="f"></i><i></i><i></i><i class="f"></i><i></i><i class="f"></i><i class="f"></i><i></i><i class="f"></i><i></i><i class="f"></i><i></i></span>
-      <span class="txt"><b>City Grid</b><small>Fill the 4×4 grid of cities. Solo or with friends.</small><span class="st">Not played</span></span>
+      <span class="txt"><b>City Grid</b><small>Fill the 4×4 grid of cities. Capitals, coasts, rivers and more.</small><span class="st">Not played</span></span>
       <span class="ref">B2</span></a></li>
     <li><a class="game" href="https://hectorei19.github.io/connections/" data-id="connections">
       <span class="pic cx" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
@@ -141,11 +141,11 @@ footer{font-size:.85rem;color:var(--ink-2);display:flex;flex-direction:column;ga
 function madridParts(t){const o={};new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(t).forEach(p=>o[p.type]=p.value);return o}
 function dayKey(){const p=madridParts(Date.now());return p.year+'-'+p.month+'-'+p.day}
 // same check as games.js: each game keeps its own save on this site
-// City Grid: no "played today" yet, until its save is known
+// Country Grid keeps bl-hist and bl-daily, City Grid (the same game with cities) cc-hist and cc-daily
 const DAILY_KEY={connections:'cx-daily',top10:'t10-daily',silhouette:'sil-daily'};
-function playedToday(id){const k=dayKey();if(id!=='borderline'&&!DAILY_KEY[id])return false;try{
-  if(id==='borderline'){const h=JSON.parse(localStorage.getItem('bl-hist')||'{}')||{};if(h[k]&&h[k].f!==0)return true;
-    const d=JSON.parse(localStorage.getItem('bl-daily')||'null');return !!(d&&d.date===k&&d.S&&d.S.over)}
+function playedToday(id){const k=dayKey();if(id!=='borderline'&&id!=='citygrid'&&!DAILY_KEY[id])return false;try{
+  if(id==='borderline'||id==='citygrid'){const x=id==='borderline'?'bl':'cc',h=JSON.parse(localStorage.getItem(x+'-hist')||'{}')||{};if(h[k]&&h[k].f!==0)return true;
+    const d=JSON.parse(localStorage.getItem(x+'-daily')||'null');return !!(d&&d.date===k&&d.S&&d.S.over)}
   const d=JSON.parse(localStorage.getItem(DAILY_KEY[id])||'null');return !!(d&&d.date===k&&d.over)}catch(e){return false}}
 const N=document.querySelectorAll('.game').length;
 function draw(){let n=0;
