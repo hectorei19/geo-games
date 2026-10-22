@@ -1,0 +1,242 @@
+/* Geomingo: the brand shared by every game (hectorei19.github.io/<game>/ loads ../geo-games/brand/geomingo.css).
+   1. tokens (light and dark, data-theme like the demo)  2. names the games' own styles already use, pointed at the tokens
+   3. brand components (gm-*)  4. the games' common pieces (panel, buttons, grid, sheet, menu…) in the brand's look.
+   Load it after the game's own styles. Change it here and every game follows. */
+
+/* ---------- 1. tokens ---------- */
+:root{
+  --bg:#FFF6EE; --surface:#FFFFFF; --ink:#1B2238; --muted:#4A5068; --line:#F3D9C8; --sand:#FFF6EE;
+  --flamingo:#F0567F; --flamingo-deep:#D9416C; --flamingo-leg:#C93F69; --flamingo-text:#B8295A; --on-flamingo:#1B2238;
+  --pink-soft:#FFE3EA; --lagoon:#0B6E73; --lagoon-soft:#E3F2EF; --on-lagoon:#FFFFFF;
+  --sun:#FFB938; --sky:#5AA9E6; --violet:#7C5CD6; --leaf:#3DAA6B; --leaf-text:#1F7A48;
+  --bad:#B42318; --bad-soft:#FDE4E1; --beak:#FFF6EE; --eye:#1B2238;
+  --display:"Fredoka","Nunito",system-ui,sans-serif; --body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --shadow:0 10px 30px -14px rgba(27,34,56,.35);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141A2B; --surface:#1E2640; --ink:#F5EFE8; --muted:#AAB1C9; --line:#2E3756;
+  --flamingo:#FF6F95; --flamingo-deep:#E0507A; --flamingo-leg:#E0507A; --flamingo-text:#FF8AA9; --on-flamingo:#1B2238;
+  --pink-soft:#3A2234; --lagoon:#4FC1C6; --lagoon-soft:#17383E; --on-lagoon:#141A2B; --sun:#FFC857; --leaf-text:#6FD49A;
+  --bad:#FF8A7A; --bad-soft:#3E1F22; --beak:#FFF6EE; --eye:#1B2238;
+  --shadow:0 10px 30px -14px rgba(0,0,0,.7); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141A2B; --surface:#1E2640; --ink:#F5EFE8; --muted:#AAB1C9; --line:#2E3756;
+  --flamingo:#FF6F95; --flamingo-deep:#E0507A; --flamingo-leg:#E0507A; --flamingo-text:#FF8AA9; --on-flamingo:#1B2238;
+  --pink-soft:#3A2234; --lagoon:#4FC1C6; --lagoon-soft:#17383E; --on-lagoon:#141A2B; --sun:#FFC857; --leaf-text:#6FD49A;
+  --bad:#FF8A7A; --bad-soft:#3E1F22; --beak:#FFF6EE; --eye:#1B2238;
+  --shadow:0 10px 30px -14px rgba(0,0,0,.7); color-scheme:dark}
+
+/* ---------- 2. the names the games' styles use ---------- */
+:root,:root[data-theme]{
+  --paper:var(--bg); --sheet:var(--surface); --ink-2:var(--muted); --rule:var(--line);
+  --sea:var(--lagoon); --sea-soft:var(--lagoon-soft); --good:var(--leaf-text);
+  --ui:var(--body); --mono:var(--body);
+  /* player and group colours: pink, sky, sun, violet, leaf, clay */
+  --p0:var(--flamingo); --p1:var(--sky); --p2:var(--sun); --p3:var(--violet); --p4:var(--leaf); --p5:#C07B4F;
+  --p0-soft:color-mix(in srgb,var(--p0) 24%,var(--surface)); --p1-soft:color-mix(in srgb,var(--p1) 24%,var(--surface));
+  --p2-soft:color-mix(in srgb,var(--p2) 28%,var(--surface)); --p3-soft:color-mix(in srgb,var(--p3) 24%,var(--surface));
+  --p4-soft:color-mix(in srgb,var(--p4) 24%,var(--surface)); --p5-soft:color-mix(in srgb,var(--p5) 24%,var(--surface));
+}
+
+/* ---------- base ---------- */
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);background-image:none;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.4;-webkit-text-size-adjust:100%}
+body::before{display:none!important}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--lagoon)}
+:focus-visible{outline:3px solid var(--lagoon);outline-offset:2px}
+[hidden]{display:none!important}
+.wrap{max-width:520px;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));padding-block:12px 40px;gap:16px}
+
+/* Mingo (brand/mingo.js draws him; these colour his parts and follow the theme) */
+.m-body{fill:var(--flamingo)} .m-deep{fill:var(--flamingo-deep)} .m-leg{stroke:var(--flamingo-leg);fill:none}
+.m-neck{stroke:var(--flamingo);fill:none} .m-beak{fill:var(--beak)} .m-eye{fill:var(--eye)} .m-eyel{stroke:var(--eye);fill:none}
+.m-cap{fill:var(--lagoon)} .m-brim{stroke:var(--lagoon)}
+svg.mingo{display:block;flex-shrink:0;overflow:visible}
+
+/* ---------- 3. brand components ---------- */
+/* header: "‹ geomingo" back to all the games, streak, theme; then the game's own bar (name, Menu) */
+.gm-top{display:flex;align-items:center;gap:8px;min-height:44px}
+.gm-spacer{flex:1}
+.gm-home{display:inline-flex;align-items:center;gap:4px;min-height:44px;padding-right:6px;margin-left:-6px;padding-left:4px;border-radius:12px;color:var(--ink);text-decoration:none}
+.gm-home svg{stroke:var(--ink);flex:none}
+.gm-logo{font-family:var(--display);font-weight:700;font-size:28px;letter-spacing:-.5px;margin:0;line-height:1;color:var(--ink);white-space:nowrap}
+.gm-logo span{color:var(--flamingo-text)}
+.gm-home .gm-logo{font-size:24px}
+.gm-pill{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:4px 12px;border-radius:999px;background:var(--surface);border:2px solid var(--line);font-weight:800;font-size:14px;white-space:nowrap}
+.gm-pill svg{stroke:var(--flamingo-text);flex:none}
+.gm-icon{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;flex-shrink:0;padding:0;color:var(--ink)}
+.gm-icon svg{stroke:var(--ink);fill:none}
+.gm-icon:hover{border-color:var(--ink)}
+.gm-theme .sun{display:none}
+:root[data-theme="dark"] .gm-theme .sun{display:block}:root[data-theme="dark"] .gm-theme .moon{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .gm-theme .sun{display:block}:root:not([data-theme="light"]) .gm-theme .moon{display:none}}
+.gm-bar{display:flex;align-items:center;gap:10px;min-height:44px}
+.gm-title{margin:0;font-family:var(--display);font-weight:700;font-size:26px;line-height:1.05;cursor:pointer;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;min-width:0}
+.gm-title small{font-family:var(--body);font-size:13px;font-weight:800;color:var(--muted)}
+@media (max-width:360px){.gm-pill .gm-pl{display:none}}
+
+/* Mingo talking from a speech bubble */
+.gm-hello{display:flex;align-items:flex-end;gap:8px}
+.gm-bubble{flex:1;min-width:0;margin-bottom:14px;padding:10px 14px;background:var(--surface);border:2px solid var(--ink);border-radius:18px 18px 18px 4px;display:flex;flex-direction:column;gap:2px}
+.gm-bubble b{font-size:16px;font-weight:800}
+.gm-bubble span{font-size:14px;color:var(--muted)}
+.gm-bubble.pop{animation:gm-pop .35s ease}
+@keyframes gm-pop{0%{transform:scale(.96)}60%{transform:scale(1.02)}100%{transform:scale(1)}}
+
+/* game cards (home page) */
+.gm-games{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.gm-card{width:100%;display:flex;align-items:center;gap:14px;padding:12px;background:var(--surface);border-radius:18px;border:2px solid var(--line);cursor:pointer;text-align:left;color:var(--ink);text-decoration:none;transition:transform .15s ease,border-color .15s ease}
+a.gm-card:hover{transform:translateY(-2px);border-color:var(--ink)}
+.gm-card.feature{border-color:var(--ink)}
+.gm-card.soon{cursor:default;opacity:.75}
+.gm-thumb{width:56px;height:56px;border-radius:14px;flex-shrink:0;padding:8px}
+.gm-ctext{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.gm-ctext b{font-family:var(--display);font-weight:600;font-size:20px;display:flex;align-items:center;gap:6px;line-height:1.15}
+.gm-ctext span{font-size:13px;color:var(--muted)}
+.gm-new{font-family:var(--body);font-size:11px;font-weight:800;padding:2px 6px;border-radius:6px;background:var(--sun);color:#1B2238}
+.gm-state{padding:8px 14px;border-radius:999px;background:var(--flamingo);color:var(--on-flamingo);font-weight:800;font-size:14px;white-space:nowrap}
+.gm-state.done{background:var(--lagoon-soft);color:var(--lagoon)}
+.gm-state.soon{background:transparent;color:var(--muted);border:2px dashed var(--line);padding:6px 12px}
+
+/* big buttons */
+.gm-big{display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:8px 16px;border-radius:18px;border:0;background:var(--ink);color:var(--bg);font-family:var(--display);font-weight:600;font-size:20px;cursor:pointer;width:100%;text-decoration:none;text-align:center}
+.gm-big.pink{background:var(--flamingo);color:var(--on-flamingo)}
+.gm-big.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.gm-dots{display:flex}.gm-dots i{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink)}.gm-dots i+i{margin-left:-5px}
+.gm-note{text-align:center;font-size:13px;color:var(--muted);margin:0}
+.gm-text{background:none;border:0;color:var(--muted);font-weight:800;font-size:14px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:10px;min-height:44px}
+
+/* bottom sheet and result window */
+.gm-scrim{position:fixed;inset:0;background:rgba(15,20,35,.45);z-index:45;display:flex;align-items:flex-end;justify-content:center}
+.gm-scrim.center{align-items:center;padding:16px}
+.gm-sheet{width:100%;max-width:520px;background:var(--surface);border-radius:24px 24px 0 0;padding:18px max(16px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow);animation:gm-up .2s ease}
+.gm-box{width:100%;max-width:420px;background:var(--surface);border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow);animation:gm-up .2s ease;max-height:100%;overflow:auto}
+@keyframes gm-up{from{transform:translateY(16px);opacity:.4}to{transform:none;opacity:1}}
+.gm-sheet h3,.gm-box h3{margin:0;font-family:var(--display);font-weight:600;font-size:20px}
+.gm-result{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.gm-result h3{text-wrap:balance}
+.gm-num{font-family:var(--display);font-weight:700;font-size:48px;line-height:1;font-variant-numeric:tabular-nums}
+.gm-mini{display:grid;gap:4px;justify-content:center}
+.gm-mini i{width:20px;height:20px;border-radius:5px;background:var(--line)}
+.gm-mini i.ok{background:var(--lagoon)}
+.gm-toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:60;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:800;font-size:14px;max-width:calc(100% - 32px);text-align:center}
+
+/* ---------- 4. the games' common pieces in the brand's look ---------- */
+.panel{background:var(--surface);border:2px solid var(--line);border-radius:18px;box-shadow:none;padding:16px;gap:14px}
+.label{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.hint{color:var(--muted);font-size:15px}
+.big{font-family:var(--display);font-weight:700;font-size:34px;line-height:1.05;text-transform:none;letter-spacing:0}
+.seg{border:2px solid var(--line);border-radius:14px;overflow:hidden}
+.seg button{min-height:44px;border-right:2px solid var(--line);font-weight:800}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.primary{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;background:var(--flamingo);color:var(--on-flamingo);border:0;border-radius:18px;padding:12px 16px;font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:0;text-transform:none}
+a.primary{text-decoration:none;text-align:center}
+.primary:disabled,.primary[disabled]{opacity:.45;cursor:default}
+.primary.nextgame{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.ghost{min-height:44px;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:8px 14px;font-weight:800;color:var(--ink)}
+.ghost:hover:not(:disabled){border-color:var(--ink)}
+.linkbtn{min-height:44px;color:var(--muted);font-weight:800;font-size:14px;padding:8px 4px}
+.helpbtn{min-height:44px;background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:800;font-size:15px;color:var(--ink)}
+.helpbtn:hover{border-color:var(--ink)}
+.code-in,.prow input,.nameinp,.namecard input,.field #fname,.field input,.t10in input,.ans input,.sheet input{min-height:50px;border:2px solid var(--ink);border-radius:14px;background:var(--bg);color:var(--ink);padding:10px 14px;font-size:17px;font-weight:700}
+.code-in{font-family:var(--display);letter-spacing:.12em}
+.backline{min-height:44px}
+.backline .ht,.hcard>.ht,.dtxt .ht{font-family:var(--display);font-weight:600;text-transform:none;letter-spacing:0}
+.hcard{background:var(--surface);border:2px solid var(--line);border-radius:18px;box-shadow:none;color:var(--ink)}
+.hcard.ac{border:2px solid var(--ink);padding:16px}
+button.hcard:hover,button.hcard:active{border-color:var(--ink);background:var(--surface)}
+.hcard>.hm{font-family:var(--body);font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--flamingo-text)}
+.hcard>.hs{font-size:15px;color:var(--muted)}
+.hrow .hcard>.ht{font-size:22px}
+.hcard.soon{opacity:.6}
+.status{background:var(--surface);border:2px solid var(--line);border-radius:16px;box-shadow:none}
+.status .sub,.coord{font-family:var(--body);font-weight:700}
+.tbar{background:var(--flamingo)}
+.chip{border:2px solid var(--line);background:var(--surface);font-weight:800}
+.chip.on{border-color:var(--ink);box-shadow:none}
+.chip b{font-family:var(--display);font-weight:600}
+.pin{border-radius:50%;transform:none}
+.roomcode{font-family:var(--display);font-weight:700;font-size:40px;letter-spacing:.12em;color:var(--ink);background:var(--pink-soft);border-radius:16px;text-align:center;padding:8px}
+.lp{border:2px solid var(--line);border-radius:12px;background:var(--bg);font-weight:800}
+.lp .tag{font-family:var(--body);font-weight:700}
+.st{border:2px solid var(--line);border-radius:14px;background:var(--bg)}
+.st b{font-family:var(--display);font-weight:700;font-size:26px}
+.sttab td{font-family:var(--body);font-variant-numeric:tabular-nums}
+.sharebox{font-family:var(--body);font-weight:700;font-size:14px;background:var(--bg);border:2px solid var(--line);border-radius:14px}
+.place{border:2px solid var(--line);border-radius:14px;background:var(--bg)}
+.place.win{border-color:var(--ink);box-shadow:none}
+.place .rk,.lbl .rk{font-family:var(--display);font-weight:700}
+.place .pt,.lbl .pt,.lbl .sq{font-family:var(--display);font-weight:600}
+.lbl li.me{background:var(--pink-soft);border-radius:10px}
+.arch button{background:var(--surface);border:2px solid var(--line);border-radius:14px;min-height:56px}
+.arch button:hover{border-color:var(--ink)}
+.arch .an{font-family:var(--display);font-weight:700;color:var(--flamingo-text)}
+.gbanner{background:var(--lagoon-soft);border:2px solid var(--lagoon);border-radius:16px}
+.dsq i{border-radius:4px;background:var(--line)}
+.dsq i.on{background:var(--lagoon)}
+.dstats b,.hrank b{font-family:var(--display);font-weight:700}
+.hrank b{color:var(--flamingo-text)}
+.testbar{border-radius:12px}
+
+/* the grid (Countries, Cities): rounded squares with room between them, as in the demo */
+.board{gap:5px;background:transparent;border:0;border-radius:0;box-shadow:none}
+.board.b5{gap:4px}
+.hd{border:0!important;border-radius:10px}
+.hd .ref{font-family:var(--display);font-weight:600;color:var(--flamingo-text);font-size:.7rem}
+.hd .ht{font-family:var(--body);font-weight:800}
+.hd[data-info]:hover{background:var(--pink-soft)}
+.ib{color:var(--lagoon);font-family:var(--body);font-style:normal;font-weight:800;border-width:1.5px}
+.corner{border:0!important;border-radius:12px;background:var(--pink-soft);font-family:var(--body);color:var(--muted)}
+.corner.dnum .dl{font-family:var(--body);font-weight:800;letter-spacing:.08em}
+.corner.dnum .dn{font-family:var(--display);font-weight:700;color:var(--flamingo-text)}
+.cbrand{font-family:var(--display);font-weight:700;text-transform:none;letter-spacing:-.3px;line-height:1}
+.cbrand span{color:var(--flamingo-text)}
+.cell{border:2px dashed var(--line);border-radius:12px;background:var(--surface);transition:transform .15s ease,border-color .15s ease}
+.b5 .cell{border-radius:9px}
+.cell .plus{opacity:.5}
+.cell .plus::before,.cell .plus::after{background:var(--muted);border-radius:2px}
+.cell .plus::before{height:3px}.cell .plus::after{width:3px}
+button.cell:not(.taken):not(.miss):hover{border-color:var(--flamingo);transform:scale(1.03)}
+.cell.sel{background:var(--pink-soft);border:2px solid var(--flamingo);box-shadow:none}
+.cell.miss{border-style:solid;border-color:var(--line);background:var(--bg)}
+.cell.flag{border:0;padding:0}
+.flagbox{border-radius:12px;border:3px solid var(--pc,var(--lagoon))}
+.b5 .flagbox{border-radius:9px;border-width:2.5px}
+.flagbox .nm{background:rgba(27,34,56,.72);font-family:var(--body);font-weight:800}
+.pts{background:var(--ink);color:var(--bg);font-family:var(--body);font-weight:800;border-radius:0 0 0 8px}
+.cell .cnt,.cell .val{font-family:var(--body);font-weight:700}
+.actions .ghost{min-height:44px}
+
+/* the answer sheet, dialogs, the Menu and toasts */
+.scrim,.infoscrim{background:rgba(15,20,35,.45)}
+.sheet{background:var(--surface);border:0;border-radius:24px 24px 0 0;max-width:520px;box-shadow:var(--shadow);padding-top:18px;gap:12px}
+.sheet .q{font-weight:800}
+.sheet .q i{font-family:var(--body);font-weight:800;color:var(--flamingo-text);font-size:13px}
+.qcat{font-weight:800;background:var(--pink-soft);border-radius:999px;padding:4px 10px;min-height:32px}
+.sugg{gap:6px}
+.sugg button{min-height:46px;border:2px solid var(--line);border-radius:12px;background:var(--bg);padding:8px 12px;font-weight:700}
+.sugg button:hover:not(:disabled){border-color:var(--ink)}
+.sugg .tag{font-family:var(--body);font-weight:800}
+.infobox{background:var(--surface);border:0;border-radius:24px;padding:22px;box-shadow:var(--shadow)}
+.infobox h2{font-family:var(--display);font-weight:600;text-transform:none;font-size:24px}
+.infobox .meta{font-family:var(--body);font-weight:700}
+.helpbox h3{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:0;text-transform:none;color:var(--ink)}
+.ptable{font-family:var(--body)}
+.handoff{background:var(--bg)}
+.handoff h2{font-family:var(--display);font-weight:700;text-transform:none}
+.menubox .mitem{min-height:48px;background:var(--surface);border:2px solid var(--line);border-top-width:0;font-weight:800}
+.menubox .mitem:first-child{border-top-width:2px;border-radius:16px 16px 0 0}
+.menubox .mitem:last-child{border-radius:0 0 16px 16px}
+.menubox .mitem:hover{background:var(--pink-soft)}
+.menubox .mitem .ico{color:var(--flamingo-text)}
+.menubox .mitem.out{border-top:2px solid var(--line)}
+.toast{background:var(--ink);color:var(--bg);border-radius:12px;font-weight:800;font-size:14px;top:auto;bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+.toast.bad{background:var(--bad);color:var(--surface)}
+.toast.good{background:var(--lagoon);color:var(--on-lagoon)}
+.foot .linkbtn,.foot a{color:var(--muted)}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}

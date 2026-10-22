@@ -3,165 +3,92 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<style>body{margin:0}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
-<title>Geo Games</title>
-<meta name="description" content="Five daily geography games: Country Grid, City Grid, Connections, Top 10 and Silhouette.">
+<title>Geomingo · Daily geography games</title>
+<meta name="description" content="Daily geography games. Better with friends. Countries, Connections, Top 10 and Silhouette: new puzzles every day at midnight, Spain time.">
+<meta name="theme-color" content="#FFF6EE">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Geomingo">
+<meta property="og:title" content="Geomingo · Daily geography games">
+<meta property="og:description" content="Daily geography games. Better with friends.">
+<meta property="og:url" content="https://hectorei19.github.io/geo-games/">
+<meta property="og:image" content="https://hectorei19.github.io/geo-games/brand/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="brand/icons/favicon.svg?v=202610230000" type="image/svg+xml">
+<link rel="icon" href="brand/icons/favicon-32.png?v=202610230000" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="brand/icons/apple-touch-icon.png?v=202610230000">
+<link rel="manifest" href="brand/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Barlow+Semi+Condensed:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="brand/geomingo.css?v=202610230000">
+<script src="brand/mingo.js?v=202610230000"></script>
 <style>
-/* Layout: the games' survey-map sheet (same tokens as style.css) with one map-reference card per game */
-:root{
-  --paper:#E9EFEE; --sheet:#F7FAF9; --ink:#13243A; --ink-2:#4D5E6E; --rule:#B9C7C8; --sea:#0E7C86; --sea-soft:#D3E7E7;
-  --good:#1F7A3E; --p0:#D9482B; --p1:#2A62C9; --p2:#C58A00; --p3:#7B3FBF; --p4:#2E8540;
-  --p0-soft:#F6D9D1; --p1-soft:#D6E1F6; --p2-soft:#F3E6C2; --p3-soft:#E5D8F3; --p4-soft:#D5EDDA;
-  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
-  --ui:"Barlow Semi Condensed","Arial Narrow","Helvetica Neue",Arial,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
-  --shadow:0 1px 0 rgba(19,36,58,.06),0 8px 24px -12px rgba(19,36,58,.25);
-}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --paper:#0D1820; --sheet:#14232D; --ink:#E2ECEA; --ink-2:#97A9AF; --rule:#2B3E48; --sea:#4FC1C6; --sea-soft:#183A40;
-  --good:#7FD39A; --p0:#FF7A5C; --p1:#79A5FF; --p2:#F2C14E; --p3:#C49BFF; --p4:#6FD08C;
-  --p0-soft:#43231C; --p1-soft:#1F2D4A; --p2-soft:#3D321A; --p3-soft:#33264A; --p4-soft:#1D3A26;
-  --shadow:0 1px 0 rgba(0,0,0,.3),0 10px 28px -12px rgba(0,0,0,.7); color-scheme:dark}}
-:root[data-theme="dark"]{
-  --paper:#0D1820; --sheet:#14232D; --ink:#E2ECEA; --ink-2:#97A9AF; --rule:#2B3E48; --sea:#4FC1C6; --sea-soft:#183A40;
-  --good:#7FD39A; --p0:#FF7A5C; --p1:#79A5FF; --p2:#F2C14E; --p3:#C49BFF; --p4:#6FD08C;
-  --p0-soft:#43231C; --p1-soft:#1F2D4A; --p2-soft:#3D321A; --p3-soft:#33264A; --p4-soft:#1D3A26;
-  --shadow:0 1px 0 rgba(0,0,0,.3),0 10px 28px -12px rgba(0,0,0,.7); color-scheme:dark}
-*{box-sizing:border-box}
-html,body{min-height:100%}
-body{background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.4;
-  background-image:linear-gradient(var(--rule) 1px,transparent 1px),linear-gradient(90deg,var(--rule) 1px,transparent 1px);
-  background-size:48px 48px;background-position:-1px -1px;background-attachment:fixed}
-body::before{content:"";position:fixed;inset:0;background:var(--paper);opacity:.82;pointer-events:none;z-index:-1}
-.wrap{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:22px 40px;display:flex;flex-direction:column;gap:18px}
-:focus-visible{outline:2.5px solid var(--sea);outline-offset:2px}
-
-header{display:flex;flex-direction:column;gap:6px}
-.toprow{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
-.brand{font-family:var(--display);font-weight:900;font-size:2.6rem;letter-spacing:.02em;line-height:.95;text-transform:uppercase;margin:0}
-.brand span{color:var(--sea)}
-.coord{font-family:var(--mono);font-size:.72rem;color:var(--ink-2);letter-spacing:.04em;white-space:nowrap}
-.lede{margin:0;color:var(--ink-2);font-size:1.05rem;text-wrap:balance}
-
-.today{display:flex;align-items:center;gap:10px;font-size:.95rem;color:var(--ink-2);flex-wrap:wrap}
-.dots{display:flex;gap:6px}
-.dots i{width:12px;height:12px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--rule)}
-.dots i.on{background:var(--good);box-shadow:none}
-.today .cnt{margin-left:auto;font-family:var(--mono);font-size:.78rem;font-variant-numeric:tabular-nums}
-
-.games{list-style:none;margin:0;padding:0;display:grid;grid-auto-rows:1fr;gap:12px}
-.games li{display:flex}
-.games .game{flex:1}
-.game{display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:center;padding:14px;background:var(--sheet);border:1.5px solid var(--ink);border-radius:6px;box-shadow:var(--shadow);color:var(--ink);text-decoration:none;position:relative;transition:transform .15s ease,box-shadow .15s ease}
-.game:hover{transform:translateY(-2px);box-shadow:0 1px 0 rgba(19,36,58,.06),0 14px 30px -14px rgba(19,36,58,.45)}
-.ref{position:absolute;top:8px;right:12px;font-family:var(--mono);font-size:.68rem;color:var(--ink-2);letter-spacing:.04em}
-.txt{display:flex;flex-direction:column;gap:3px;min-width:0}
-.txt b{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:1.7rem;line-height:1;letter-spacing:.02em}
-.txt small{color:var(--ink-2);font-size:.95rem}
-.st{font-family:var(--mono);font-size:.72rem;color:var(--ink-2);margin-top:4px}
-.st.done{color:var(--good)}
-.go{font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.85rem;color:var(--sea);margin-top:4px}
-
-/* small pictures of each game, drawn with CSS */
-.pic{width:76px;height:76px;border-radius:5px;background:var(--paper);border:1px solid var(--rule);padding:7px;display:grid;gap:3px}
-.pic.bl{grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr)}
-.pic.bl i{border-radius:2px;background:var(--sea-soft)}
-.pic.bl i.f{background:var(--sea)}
-.pic.cx{grid-template-rows:repeat(4,1fr)}
-.pic.cx i{border-radius:3px}
-.pic.cx i:nth-child(1){background:var(--p2)}.pic.cx i:nth-child(2){background:var(--p4)}
-.pic.cx i:nth-child(3){background:var(--p1)}.pic.cx i:nth-child(4){background:var(--p3)}
-.pic.t10{grid-template-rows:repeat(5,1fr);gap:2px;padding:6px 8px}
-.pic.t10 span{display:flex;align-items:center;gap:5px;font-family:var(--display);font-weight:900;font-size:.72rem;color:var(--sea);line-height:1}
-.pic.t10 span::after{content:"";flex:1;height:5px;border-radius:2px;background:var(--rule)}
-.pic.t10 span.on::after{background:var(--p4)}
-.pic.cg{grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:4px}
-.pic.cg i{border-radius:50%;background:var(--p2-soft);box-shadow:inset 0 0 0 1.5px var(--rule)}
-.pic.cg i.f{background:var(--p2);box-shadow:inset 0 0 0 3px var(--p2),inset 0 0 0 5px var(--sheet)}
-.pic.sil{padding:4px;display:block}
-.pic.sil svg{display:block;width:100%;height:100%}
-.pic.sil .land{fill:var(--ink);stroke:var(--ink);stroke-width:1;stroke-linejoin:round;fill-rule:evenodd}
-.pic.sil .q{fill:var(--sea);font-family:var(--display);font-weight:900;font-size:26px}
-
-footer{font-size:.85rem;color:var(--ink-2);display:flex;flex-direction:column;gap:4px;border-top:1px dashed var(--rule);padding-top:12px}
-@media (max-width:380px){.game{grid-template-columns:60px 1fr}.pic{width:60px;height:60px;padding:5px}.brand{font-size:2.2rem}}
-@media (prefers-reduced-motion:reduce){.game{transition:none}.game:hover{transform:none}}
+/* Home page: Mingo says hello and counts today's games, then one card per game and Play with friends */
+.app{max-width:460px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));padding-block:max(18px,env(safe-area-inset-top,0px)) calc(40px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:16px}
+/* small pictures of each game */
+.t-countries{background:var(--pink-soft);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}
+.t-countries i{border-radius:3px;background:var(--surface)} .t-countries i.f{background:var(--flamingo)}
+.t-cities{background:#1B2238;display:flex;align-items:flex-end;justify-content:center;gap:3px;padding-bottom:10px}
+.t-cities i{width:7px;border-radius:2px}
+.t-cx{background:var(--bg);display:flex;flex-direction:column;gap:4px;box-shadow:inset 0 0 0 2px var(--line)}
+.t-cx i{flex:1;border-radius:3px}
+.t-top{background:var(--lagoon-soft);display:flex;flex-direction:column;justify-content:center;gap:5px}
+.t-top i{height:6px;border-radius:3px;background:var(--lagoon)}
+.t-sil{background:var(--lagoon-soft);padding:5px}
+.t-sil svg{display:block;width:100%;height:100%}
+.t-sil .land{fill:var(--ink);fill-rule:evenodd}
+.t-sil .q{fill:var(--flamingo-text);font-family:var(--display);font-weight:700;font-size:30px}
+footer{display:flex;flex-direction:column;gap:4px;align-items:center;padding-top:4px}
 </style>
 </head>
 <body>
-
-<main class="wrap">
-  <header>
-    <div class="toprow">
-      <h1 class="brand">Geo <span>Games</span></h1>
-      <span class="coord" id="day">40°25′N 3°42′W</span>
-    </div>
-    <p class="lede">Five daily geography games. New puzzles every day at midnight, Spain time.</p>
-  </header>
-
-  <div class="today" aria-live="polite">
-    <span class="dots" id="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-    <span id="donetxt">0 of 5 played today</span>
-    <span class="cnt" id="cnt"></span>
-  </div>
-
-  <ul class="games" id="games">
-    <li><a class="game" href="https://hectorei19.github.io/country-grid/" data-id="borderline">
-      <span class="pic bl" aria-hidden="true"><i class="f"></i><i></i><i class="f"></i><i></i><i></i><i class="f"></i><i class="f"></i><i></i><i class="f"></i><i></i><i></i><i class="f"></i><i></i><i class="f"></i><i></i><i></i></span>
-      <span class="txt"><b>Country Grid</b><small>Fill the 4×4 grid of countries. Solo or with friends.</small><span class="st">Not played</span></span>
-      <span class="ref">A1</span></a></li>
-    <li><a class="game" href="https://hectorei19.github.io/city-grid/" data-id="citygrid">
-      <span class="pic cg" aria-hidden="true"><i></i><i class="f"></i><i></i><i class="f"></i><i class="f"></i><i></i><i></i><i class="f"></i><i></i><i class="f"></i><i class="f"></i><i></i><i class="f"></i><i></i><i class="f"></i><i></i></span>
-      <span class="txt"><b>City Grid</b><small>Fill the 4×4 grid of cities. Solo or with friends.</small><span class="st">Not played</span></span>
-      <span class="ref">B2</span></a></li>
-    <li><a class="game" href="https://hectorei19.github.io/connections/" data-id="connections">
-      <span class="pic cx" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-      <span class="txt"><b>Connections</b><small>16 countries, 4 hidden groups of 4.</small><span class="st">Not played</span></span>
-      <span class="ref">C3</span></a></li>
-    <li><a class="game" href="https://hectorei19.github.io/top10/" data-id="top10">
-      <span class="pic t10" aria-hidden="true"><span class="on">1</span><span class="on">2</span><span>3</span><span class="on">4</span><span>5</span></span>
-      <span class="txt"><b>Top 10</b><small>Name the 10 countries of a ranking. 3 lives.</small><span class="st">Not played</span></span>
-      <span class="ref">D4</span></a></li>
-    <li><a class="game" href="https://hectorei19.github.io/silhouette/" data-id="silhouette">
-      <span class="pic sil" aria-hidden="true"><svg viewBox="-3 -3 106 106"><path class="land" d="M11.1 10.1L12 10.6L14.6 9.7L16.5 10.5L18.5 8.5L18.3 7.2L20.6 5.5L20.7 7.6L21.8 8.7L23.1 9.1L22.8 10.1L23.5 10.5L23.6 11.7L24.3 11.8L24.8 11L24.2 10.4L24.4 9.6L26 7.9L26.4 5.3L27.1 5.6L27.4 5.3L27.4 6.5L28 7.3L29 7.4L29.3 6.8L30.6 6.7L31.6 8.1L32.2 7.7L31.8 7.1L32.1 6.4L31.4 6L31.4 5.1L31.9 4.4L32.5 4.2L33.2 5L34.2 5.1L34.3 4.3L33.7 3.8L34.3 2L35.5 2L36.2 2.4L36 2.8L37.8 3L39 1.1L41 0.7L42.7 1.1L45.6 0L45.3 1.7L46.2 2.1L46.3 2.9L47.1 3.8L52.6 5.1L55.7 5.4L55.6 6L53.5 7.6L53.8 8.4L55.4 8.6L54.2 10.3L55.3 10.7L54.9 12L56.4 12.8L57.2 13.8L56.9 14.3L56 14.3L56.6 14L55 12.4L54.9 12.9L53.9 13.5L54 13L53.6 12.8L52 12.6L51.7 13.3L52.2 13.3L51.7 13.9L47.2 15.9L48.3 14.7L47.9 14.5L47.5 15.1L47.1 14.9L47.3 15.3L46.5 15.4L45.8 17.1L45.5 17L45.6 17.6L45.9 17.2L46 18.1L46.5 17.8L46.4 19.2L46.9 20L46.9 19.4L48 20.3L47.4 21.8L47.2 21.1L47.1 22L46.2 21.7L46.4 25L47.1 27.5L49 29.6L55.7 33.8L59.1 43L62.6 46.5L63.7 47L63.9 47.9L67 49.3L74 49.1L74.4 50.3L72.4 52.1L72.7 53.4L77.6 55.8L81 56.8L84.2 59L88.1 60.5L88.4 61.4L90 62.2L92.2 65.1L91.6 66.7L91.5 68.3L91.1 68.5L89.1 67.6L88.2 66.2L88.5 65.8L87.3 64.1L83.9 63.8L82.4 63.1L83.2 62.3L81.2 62.2L80.3 63L78.2 66.5L78.5 67.7L77.5 69.6L78.3 70.9L79.7 71L82.7 72.8L82.6 75.9L83.2 76.4L82.5 77.7L81.4 77.4L80.5 77.7L78.6 79L78.7 82.6L77 83.8L75.8 85.4L75.2 87.4L72.8 87.6L71.9 86.8L71.7 84.8L73.1 84L73.8 81.9L73.2 80.5L74.3 79.8L75.3 79.8L75.9 78.5L74.8 76.4L74 73L73 71.8L72.2 68.7L71 66.9L70.3 67L69.4 67.8L68.3 67.5L67.3 66.2L65.7 65.6L66.3 64L64.6 61.5L61.5 62.5L61.4 62L62.4 61L61 59.9L60.4 60.3L59.5 60L59.3 60.4L59 59.2L56.8 56L55.9 56.1L55.5 56.5L53.6 55.7L51.9 56.3L50.8 54.7L48.9 54.3L47.6 52.5L46 51.5L45.6 50.1L44.5 49L43.1 48.6L41.9 46.2L39.9 45L38 45.1L37.9 44.8L38.6 44.3L38.4 43.5L36.9 41.7L35.4 41.1L35.6 39.9L33.8 39.8L34.1 36.8L32.6 34.4L32.2 31L31.3 29.3L29.5 28.4L29.4 29.1L25.4 25.9L25.2 26.4L24.5 25.7L22.1 25L20.1 26.2L19.6 27.2L18.5 27.8L17.8 29.4L17.1 30L14.5 30.9L13.1 30.8L13.1 29.9L14.6 28.2L14.4 27.1L12.2 27.5L9.8 26.2L9.1 25L9.5 24.3L9 23.4L9.9 22L10.6 22L10.3 20.7L8.6 19.7L8.5 18.7L7.8 17.8L8.7 17.3L9.4 17.6L11.3 16.5L11.7 15.1L10.6 14L10.6 12.8L9.6 12.2L9.4 11.4ZM47.4 30.7L47.7 29.8L47.1 30.2ZM70.9 84L71.8 84.3L68.7 89.3L67.9 91.9L68 93.4L69.2 94.2L68.7 94.7L69.9 96.5L68.6 97.4L68.1 100L63.4 98.8L61.8 96.4L60.6 95.8L58.8 96L57.4 95.3L53.2 92.3L52 92.2L51.5 91.6L49.3 91.6L48.1 90.6L47.5 89.4L48 87.2L49.6 86.4L49.8 85.6L51.1 87.1L52.3 86.6L52.6 85.6L54.2 85.3L54.8 86.4L55.7 86.3L56.8 87.3L57.8 87.6L59.6 86.8L61.5 87.1L63.3 86.8L65 85.6L66.3 85.3L67.7 85.8L68.3 85.5L68.7 84.5L69.2 85ZM28.2 62.6L28.2 63.6L26.9 65.4L27 66.5L27.6 67.1L26.4 74.2L26.7 74.7L26.1 75.2L26.1 76.1L25.7 76.5L24.1 75.3L23.1 75.6L22 74.8L22.5 75.2L22 76L22 77.4L20.7 78.5L19.7 77.9L19.1 78.6L18.6 76.7L17.2 75L17.7 74.3L17.3 73.5L18 71.7L18 69.9L18.9 70.5L18.4 70.3L18.8 69L18.2 68.4L18 68.9L17.7 68.4L17.6 67.2L18.5 66.6L18.4 64.8L17.8 64.2L17.8 63L17.2 61.8L16.7 62L16.5 61.6L16.2 61.9L16.6 58.2L17.5 59.4L19 59.7L21.2 58.6L24.3 55.7L24.6 56.3L25.7 56.5L25.8 57.4L26 56.8L26.6 57.1L26.3 58.1L27.4 58.3L26.2 59L27.2 59.1L27 59.3L27.8 59.8L27.2 60.2ZM33.4 40.7L33.2 42L32.6 41.4L31 41.5L31.2 40.9L32.7 41L33.2 40.4ZM17.8 76.5L17.4 77.6L17 76.2ZM44.2 98.6L44.5 99.5L43.7 98.9ZM16.7 75.3L16.4 76.2L16.1 75.6ZM58.5 61.3L57.9 61.3L57.9 60.7L58.7 61ZM66.2 82.6L66.2 82.2L66.6 82.1L66.6 82.7Z"/><text class="q" x="80" y="34">?</text></svg></span>
-      <span class="txt"><b>Silhouette</b><small>Name the country from its shape.</small><span class="st">Not played</span></span>
-      <span class="ref">E5</span></a></li>
-  </ul>
-
+<div class="app">
+  <div id="top"></div>
+  <main style="display:flex;flex-direction:column;gap:16px">
+    <div id="hello"></div>
+    <ul class="gm-games" id="games"></ul>
+    <a class="gm-big" id="friends" href="../country-grid/?friends"><span class="gm-dots" aria-hidden="true"><i style="background:var(--flamingo)"></i><i style="background:var(--sky)"></i><i style="background:var(--sun)"></i></span>Play with friends</a>
+    <p class="gm-note">Rooms for 2 to 6 phones, in Countries. More games soon.</p>
+  </main>
   <footer>
-    <span>Your results are saved on this device only.</span>
+    <p class="gm-note"><b>Daily geography games. Better with friends.</b></p>
+    <p class="gm-note">New puzzles every day at midnight, Spain time. Your results are saved on this device only.</p>
   </footer>
-</main>
+</div>
 
 <script>
-// Spain's calendar day, the same day key the games use for their daily puzzle
-function madridParts(t){const o={};new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(t).forEach(p=>o[p.type]=p.value);return o}
-function dayKey(){const p=madridParts(Date.now());return p.year+'-'+p.month+'-'+p.day}
-// same check as games.js: each game keeps its own save on this site
-// City Grid: no "played today" yet, until its save is known
-const DAILY_KEY={connections:'cx-daily',top10:'t10-daily',silhouette:'sil-daily'};
-function playedToday(id){const k=dayKey();if(id!=='borderline'&&!DAILY_KEY[id])return false;try{
-  if(id==='borderline'){const h=JSON.parse(localStorage.getItem('bl-hist')||'{}')||{};if(h[k]&&h[k].f!==0)return true;
-    const d=JSON.parse(localStorage.getItem('bl-daily')||'null');return !!(d&&d.date===k&&d.S&&d.S.over)}
-  const d=JSON.parse(localStorage.getItem(DAILY_KEY[id])||'null');return !!(d&&d.date===k&&d.over)}catch(e){return false}}
-const N=document.querySelectorAll('.game').length;
-function draw(){let n=0;
-  document.querySelectorAll('.game').forEach(a=>{const p=playedToday(a.dataset.id),st=a.querySelector('.st');if(p)n++;
-    st.textContent=p?'✓ Played today':'Not played';st.classList.toggle('done',p);a.querySelector('.go')?.remove();
-    st.insertAdjacentHTML('afterend','<span class="go">'+(p?'See result →':'Play →')+'</span>')});
-  document.querySelectorAll('#dots i').forEach((d,i)=>d.classList.toggle('on',i<n));
-  document.getElementById('donetxt').textContent=n===N?'All five played today':n+' of '+N+' played today';
-  const p=madridParts(Date.now());document.getElementById('day').textContent=p.day+'.'+p.month+'.'+p.year}
-function tick(){const p=madridParts(Date.now()),s=24*3600-(+p.hour*3600+ +p.minute*60+ +p.second);
-  const h=Math.floor(s/3600),m=Math.floor(s%3600/60);
-  document.getElementById('cnt').textContent='New in '+h+'h '+String(m).padStart(2,'0')+'m';
-  if(s<=1)setTimeout(draw,1500)}
-draw();tick();setInterval(tick,30000);
-// coming back from a game in the same tab
+// small picture of each game, as in the demo
+const ITALY='M11.1 10.1L12 10.6L14.6 9.7L16.5 10.5L18.5 8.5L18.3 7.2L20.6 5.5L20.7 7.6L21.8 8.7L23.1 9.1L22.8 10.1L23.5 10.5L23.6 11.7L24.3 11.8L24.8 11L24.2 10.4L24.4 9.6L26 7.9L26.4 5.3L27.1 5.6L27.4 5.3L27.4 6.5L28 7.3L29 7.4L29.3 6.8L30.6 6.7L31.6 8.1L32.2 7.7L31.8 7.1L32.1 6.4L31.4 6L31.4 5.1L31.9 4.4L32.5 4.2L33.2 5L34.2 5.1L34.3 4.3L33.7 3.8L34.3 2L35.5 2L36.2 2.4L36 2.8L37.8 3L39 1.1L41 0.7L42.7 1.1L45.6 0L45.3 1.7L46.2 2.1L46.3 2.9L47.1 3.8L52.6 5.1L55.7 5.4L55.6 6L53.5 7.6L53.8 8.4L55.4 8.6L54.2 10.3L55.3 10.7L54.9 12L56.4 12.8L57.2 13.8L56.9 14.3L56 14.3L56.6 14L55 12.4L54.9 12.9L53.9 13.5L54 13L53.6 12.8L52 12.6L51.7 13.3L52.2 13.3L51.7 13.9L47.2 15.9L48.3 14.7L47.9 14.5L47.5 15.1L47.1 14.9L47.3 15.3L46.5 15.4L45.8 17.1L45.5 17L45.6 17.6L45.9 17.2L46 18.1L46.5 17.8L46.4 19.2L46.9 20L46.9 19.4L48 20.3L47.4 21.8L47.2 21.1L47.1 22L46.2 21.7L46.4 25L47.1 27.5L49 29.6L55.7 33.8L59.1 43L62.6 46.5L63.7 47L63.9 47.9L67 49.3L74 49.1L74.4 50.3L72.4 52.1L72.7 53.4L77.6 55.8L81 56.8L84.2 59L88.1 60.5L88.4 61.4L90 62.2L92.2 65.1L91.6 66.7L91.5 68.3L91.1 68.5L89.1 67.6L88.2 66.2L88.5 65.8L87.3 64.1L83.9 63.8L82.4 63.1L83.2 62.3L81.2 62.2L80.3 63L78.2 66.5L78.5 67.7L77.5 69.6L78.3 70.9L79.7 71L82.7 72.8L82.6 75.9L83.2 76.4L82.5 77.7L81.4 77.4L80.5 77.7L78.6 79L78.7 82.6L77 83.8L75.8 85.4L75.2 87.4L72.8 87.6L71.9 86.8L71.7 84.8L73.1 84L73.8 81.9L73.2 80.5L74.3 79.8L75.3 79.8L75.9 78.5L74.8 76.4L74 73L73 71.8L72.2 68.7L71 66.9L70.3 67L69.4 67.8L68.3 67.5L67.3 66.2L65.7 65.6L66.3 64L64.6 61.5L61.5 62.5L61.4 62L62.4 61L61 59.9L60.4 60.3L59.5 60L59.3 60.4L59 59.2L56.8 56L55.9 56.1L55.5 56.5L53.6 55.7L51.9 56.3L50.8 54.7L48.9 54.3L47.6 52.5L46 51.5L45.6 50.1L44.5 49L43.1 48.6L41.9 46.2L39.9 45L38 45.1L37.9 44.8L38.6 44.3L38.4 43.5L36.9 41.7L35.4 41.1L35.6 39.9L33.8 39.8L34.1 36.8L32.6 34.4L32.2 31L31.3 29.3L29.5 28.4L29.4 29.1L25.4 25.9L25.2 26.4L24.5 25.7L22.1 25L20.1 26.2L19.6 27.2L18.5 27.8L17.8 29.4L17.1 30L14.5 30.9L13.1 30.8L13.1 29.9L14.6 28.2L14.4 27.1L12.2 27.5L9.8 26.2L9.1 25L9.5 24.3L9 23.4L9.9 22L10.6 22L10.3 20.7L8.6 19.7L8.5 18.7L7.8 17.8L8.7 17.3L9.4 17.6L11.3 16.5L11.7 15.1L10.6 14L10.6 12.8L9.6 12.2L9.4 11.4ZM70.9 84L71.8 84.3L68.7 89.3L67.9 91.9L68 93.4L69.2 94.2L68.7 94.7L69.9 96.5L68.6 97.4L68.1 100L63.4 98.8L61.8 96.4L60.6 95.8L58.8 96L57.4 95.3L53.2 92.3L52 92.2L51.5 91.6L49.3 91.6L48.1 90.6L47.5 89.4L48 87.2L49.6 86.4L49.8 85.6L51.1 87.1L52.3 86.6L52.6 85.6L54.2 85.3L54.8 86.4L55.7 86.3L56.8 87.3L57.8 87.6L59.6 86.8L61.5 87.1L63.3 86.8L65 85.6L66.3 85.3L67.7 85.8L68.3 85.5L68.7 84.5L69.2 85ZM28.2 62.6L28.2 63.6L26.9 65.4L27 66.5L27.6 67.1L26.4 74.2L26.7 74.7L26.1 75.2L26.1 76.1L25.7 76.5L24.1 75.3L23.1 75.6L22 74.8L22.5 75.2L22 76L22 77.4L20.7 78.5L19.7 77.9L19.1 78.6L18.6 76.7L17.2 75L17.7 74.3L17.3 73.5L18 71.7L18 69.9L18.9 70.5L18.4 70.3L18.8 69L18.2 68.4L18 68.9L17.7 68.4L17.6 67.2L18.5 66.6L18.4 64.8L17.8 64.2L17.8 63L17.2 61.8L16.7 62L16.5 61.6L16.2 61.9L16.6 58.2L17.5 59.4L19 59.7L21.2 58.6L24.3 55.7L24.6 56.3L25.7 56.5L25.8 57.4L26 56.8L26.6 57.1L26.3 58.1L27.4 58.3L26.2 59L27.2 59.1L27 59.3L27.8 59.8L27.2 60.2Z';
+const THUMB={
+  borderline:'<span class="gm-thumb t-countries" aria-hidden="true"><i class="f"></i><i></i><i class="f"></i><i></i><i class="f"></i><i></i><i class="f"></i><i class="f"></i><i></i></span>',
+  citygrid:'<span class="gm-thumb t-cities" aria-hidden="true"><i style="height:22px;background:#5AA9E6"></i><i style="height:34px;background:#F0567F"></i><i style="height:16px;background:#FFB938"></i><i style="height:28px;background:#FFF6EE"></i></span>',
+  connections:'<span class="gm-thumb t-cx" aria-hidden="true"><i style="background:var(--sun)"></i><i style="background:var(--leaf)"></i><i style="background:var(--sky)"></i><i style="background:var(--violet)"></i></span>',
+  top10:'<span class="gm-thumb t-top" aria-hidden="true"><i style="width:100%"></i><i style="width:80%"></i><i style="width:60%;opacity:.4"></i><i style="width:40%;opacity:.4"></i></span>',
+  silhouette:'<span class="gm-thumb t-sil" aria-hidden="true"><svg viewBox="-3 -3 106 106"><path class="land" d="'+ITALY+'"/><text class="q" x="72" y="36">?</text></svg></span>'};
+const G=Geomingo,esc=G.esc;
+function draw(){
+  const live=G.live(),res=live.map(g=>G.result(g.id)),n=res.filter(r=>r.done).length,N=live.length;
+  const ms=G.msToMidnight(),next='new games in '+Math.floor(ms/36e5)+'h '+String(Math.floor(ms%36e5/6e4)).padStart(2,'0')+'m';
+  const set=(id,h)=>{const el=document.getElementById(id);if(el.innerHTML!==h)el.innerHTML=h}; // redraw only what changed (keeps keyboard focus)
+  set('top',G.header());
+  const st=G.streak();
+  set('hello',
+    n===0?G.hello('hello',G.greeting(),N+' games waiting for you · '+next,{size:64})
+    :n===N?G.hello('happy','All done! '+(st>1?st+' days in a row.':'See you at midnight.'),'All '+N+' played today · '+next,{size:64})
+    :G.hello('happy',st>1?'Nice one! '+st+' days in a row.':'Nice one! Keep going.',n+' of '+N+' played today · '+next,{size:64}));
+  set('games',G.GAMES.map(g=>{
+    const r=g.soon?{}:G.result(g.id),fresh=g.id==='silhouette';
+    const state=g.soon?'<span class="gm-state soon">Coming soon</span>':r.done?'<span class="gm-state done">✓ '+esc(r.label)+'</span>':'<span class="gm-state">Play</span>';
+    const inner=THUMB[g.id]+'<span class="gm-ctext"><b>'+esc(g.name)+(fresh?' <span class="gm-new">NEW</span>':'')+'</b><span>'+esc(g.hint)+'</span></span>'+state;
+    return g.soon?'<li><div class="gm-card soon" aria-disabled="true">'+inner+'</div></li>'
+      :'<li><a class="gm-card" href="'+g.href+'" aria-label="'+esc(g.name)+': '+(r.done?'played today, '+esc(r.label):'play')+'">'+inner+'</a></li>'}).join(''))}
+draw();
+setInterval(draw,30000);
+// coming back from a game in the same tab, or a new day while the page is open
 addEventListener('pageshow',draw);addEventListener('focus',draw);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)draw()});
 </script>
 </body>
 </html>
