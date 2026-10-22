@@ -3,7 +3,7 @@
 Daily geography games. Better with friends. Home page live at https://hectorei19.github.io/geo-games/
 
 - Countries: https://hectorei19.github.io/country-grid/
-- Cities: https://hectorei19.github.io/city-grid/ (coming soon)
+- Cities: https://hectorei19.github.io/city-grid/
 - Connections: https://hectorei19.github.io/connections/
 - Top 10: https://hectorei19.github.io/top10/
 - Silhouette: https://hectorei19.github.io/silhouette/
@@ -20,6 +20,6 @@ One source for every game. The games load these files from `../geo-games/brand/`
 
 Saved on the device by the brand (new keys; the games' own keys never change): `gm-theme` (light or dark, for every game) and `gm-days` (days with at least one daily game played, for the streak; filled in the first time from the games' histories).
 
-To open Cities when City Grid is live: remove `soon:true` from its line in `GAMES` in `brand/mingo.js`.
+A game marked `soon:true` in `GAMES` (`brand/mingo.js`) shows as "Coming soon" and is left out of the menus.
 
 Publishing: change the `?v=` number after the brand files in each page, so phones load the new files. Publish this repository before the games that use a new brand file.

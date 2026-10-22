@@ -20,7 +20,7 @@ addEventListener('storage',e=>{if(e.key==='gm-theme')applyTheme()});
    id: the id each game already uses for its saves (Countries kept Borderline's), soon: shown as "Coming soon" */
 const GAMES=[
   {id:'borderline',name:'Countries',path:'country-grid/',hint:'Fill the grid with countries'},
-  {id:'citygrid',name:'Cities',path:'city-grid/',hint:'Fill the grid with cities',soon:true},
+  {id:'citygrid',name:'Cities',path:'city-grid/',hint:'Fill the grid with cities'},
   {id:'connections',name:'Connections',path:'connections/',hint:'16 countries, 4 hidden groups'},
   {id:'top10',name:'Top 10',path:'top10/',hint:'Name a ranking. 3 lives.'},
   {id:'silhouette',name:'Silhouette',path:'silhouette/',hint:'Name the country from its shape'}];
