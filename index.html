@@ -141,11 +141,12 @@ footer{font-size:.85rem;color:var(--ink-2);display:flex;flex-direction:column;ga
 function madridParts(t){const o={};new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(t).forEach(p=>o[p.type]=p.value);return o}
 function dayKey(){const p=madridParts(Date.now());return p.year+'-'+p.month+'-'+p.day}
 // same check as games.js: each game keeps its own save on this site
-// City Grid and Silhouette: no "played today" yet, until their saves are known
-function playedToday(id){const k=dayKey();if(!['borderline','connections','top10'].includes(id))return false;try{
+// City Grid: no "played today" yet, until its save is known
+const DAILY_KEY={connections:'cx-daily',top10:'t10-daily',silhouette:'sil-daily'};
+function playedToday(id){const k=dayKey();if(id!=='borderline'&&!DAILY_KEY[id])return false;try{
   if(id==='borderline'){const h=JSON.parse(localStorage.getItem('bl-hist')||'{}')||{};if(h[k]&&h[k].f!==0)return true;
     const d=JSON.parse(localStorage.getItem('bl-daily')||'null');return !!(d&&d.date===k&&d.S&&d.S.over)}
-  const d=JSON.parse(localStorage.getItem(id==='connections'?'cx-daily':'t10-daily')||'null');return !!(d&&d.date===k&&d.over)}catch(e){return false}}
+  const d=JSON.parse(localStorage.getItem(DAILY_KEY[id])||'null');return !!(d&&d.date===k&&d.over)}catch(e){return false}}
 const N=document.querySelectorAll('.game').length;
 function draw(){let n=0;
   document.querySelectorAll('.game').forEach(a=>{const p=playedToday(a.dataset.id),st=a.querySelector('.st');if(p)n++;
